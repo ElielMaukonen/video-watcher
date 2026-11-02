@@ -3,6 +3,8 @@
 Newest first. One line per finding. These override the defaults in SKILL.md.
 
 ## User preferences
+- 2026-11-02 **Speed-ups (speed > 1) only rarely: at most ONE clear, deliberate moment per edit, and only when it suits the video.** 01b (2-2.8x ramps on every clip) was 'way too fast'. "Tempo" means faster CUTTING: shorter shots, hard cuts on the beat; default is real-time + slow-mo.
+- 2026-11-02 Loves the big red squashed-serif titles in the Andorra reel (style `red_title`).
 - 2026-11-02 **Synthesised SFX (whoosh/impact/riser/drop, numpy) sound terrible - do not use them.**
 - 2026-11-02 **Tempo too slow** in edit 1 (15 s, 8 segments, slow-mo 2.4-3.25 s each). Cut much faster.
 - 2026-11-02 References the user likes: Brandon Semenuk and Jackson Goldstone fan edits (YouTube shorts fQGryqEwego, mnWoyZdRgYI, UQXxn8GSNuI, CVsxdTYdv34, dto3v8FvTB0, lSTp64wObfk).
@@ -25,4 +27,5 @@ Newest first. One line per finding. These override the defaults in SKILL.md.
 - Input-seek (`-ss` before `-i`) is essential on 4K sources; trim-from-start took ~2 min per segment.
 
 ## Feedback log
+- 2026-11-02 01b_night_session_fast: too fast, sped up - rejected. Do not use speed > 1.
 - 2026-11-02 01_night_session: SFX "ihan hirveät", tempo too slow. Visuals not criticised.

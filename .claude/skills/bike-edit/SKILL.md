@@ -46,7 +46,7 @@ approach, takeoff, peak, landing, closest pass to camera, deepest berm lean.
 `edit/plans/NN_name.json` - schema in the docstring of `edit/engine.py`. Proven structure:
 - **Hook (0-1 s):** real-time approach with `zoom: push` + `riser`, straight into slow-mo of the
   best moment (`speed 0.4-0.5`, `drop`). Title text over the hook.
-- **Rhythm:** alternate a short real-time hit (0.5-0.8 s, `flash` + `punch` + `impact`/`whoosh`)
+- **Rhythm:** hard cuts on a beat grid (e.g. 94 bpm: 0.64 s real-time hits, 1.28 s slow-mo). At most one deliberate speed-up per edit. No synthesised SFX. Alternate a short real-time hit (`punch`)
   with a slow-mo payoff (1.2-3.5 s). Beat drums drop out during slow-mo, come back on the cut.
 - **B&W** on 1-2 slow-mo moments, not more.
 - **Finale:** biggest move, slow, then real-time landing with `shake`.

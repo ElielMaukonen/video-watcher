@@ -1,0 +1,24 @@
+{
+  "grade": "night",
+  "audio": "source",
+  "bpm": 94,
+  "segments": [
+    {"src": "IMG_7071.MOV", "in": 3.6,  "out": 4.24,  "speed": 1.0, "zoom": "push"},
+    {"src": "IMG_7071.MOV", "in": 4.5,  "out": 4.884, "speed": 0.3, "bw": true, "zoom": "pull"},
+    {"src": "ded3ed1b.mov", "in": 1.66, "out": 2.30,  "speed": 1.0, "zoom": "punch"},
+    {"src": "ded3ed1b.mov", "in": 2.30, "out": 2.684, "speed": 0.3, "bw": true, "zoom": "push"},
+    {"src": "IMG_6966.mov", "in": 2.26, "out": 2.90,  "speed": 1.0, "zoom": "punch"},
+    {"src": "IMG_6966.mov", "in": 2.90, "out": 3.284, "speed": 0.3, "zoom": "push"},
+    {"src": "IMG_7091.MOV", "in": 5.0,  "out": 5.64,  "speed": 1.0, "zoom": "punch"},
+    {"src": "IMG_7091.MOV", "in": 5.64, "out": 6.024, "speed": 0.3, "bw": true, "zoom": "pull"},
+    {"src": "IMG_6967.mov", "in": 2.36, "out": 3.0,   "speed": 1.0, "zoom": "punch"},
+    {"src": "IMG_6967.mov", "in": 3.0,  "out": 3.48,  "speed": 0.375, "zoom": "push"},
+    {"src": "IMG_6967.mov", "in": 4.5,  "out": 5.78,  "speed": 1.0, "shake": 0.8, "zoom": "punch", "bw": true, "src_audio": 1.0}
+  ],
+  "texts": [
+    {"style": "red_title", "text": "NIGHT", "start": 0.64, "end": 1.92, "y": 0.42, "height": 0.32,
+     "sub": ["a short filmed under the floodlights", "session one"]},
+    {"text": "SLOWMO", "start": 5.12, "end": 6.4, "size": 32, "y": 0.86, "font": "label"},
+    {"style": "red_title", "text": "SEND IT", "start": 10.0, "end": 10.88, "y": 0.42, "height": 0.26}
+  ]
+}

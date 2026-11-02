@@ -82,6 +82,9 @@ def zoom_expr(kind, dur):
 def render_segment(i, seg, src_dir, work, grade):
     src = os.path.join(src_dir, seg["src"])
     speed = float(seg.get("speed", 1.0))
+    if speed > 1.0 and not seg.get("allow_speedup"):
+        raise SystemExit(f"segment {i}: speed {speed} > 1 needs \"allow_speedup\": true. The user wants "
+                         "speed-ups rarely - one deliberate moment per edit (see LEARNINGS.md).")
     a, b = float(seg["in"]), float(seg["out"])
     out_dur = (b - a) / speed
     pre = max(0.0, a - 0.5)  # fast input seek, then exact trim
@@ -333,6 +336,37 @@ def text_filters(texts):
     return out
 
 
+def red_title_png(tx, path):
+    """Andorra-style card: huge, horizontally squashed red serif caps filling the
+    frame width, with small letter-spaced red italic credit lines under it."""
+    from PIL import Image, ImageDraw, ImageFont
+    red = tuple(int(tx.get("color", "e00000")[i:i + 2], 16) for i in (0, 2, 4)) + (255,)
+    word = tx["text"].upper()
+    f = ImageFont.truetype(FONTS["serif"], 900)
+    l, t, r, b = f.getbbox(word)
+    layer = Image.new("RGBA", (r - l + 20, b - t + 20), (0, 0, 0, 0))
+    ImageDraw.Draw(layer).text((10 - l, 10 - t), word, font=f, fill=red)
+    tw = int(W * float(tx.get("width", 0.96)))
+    th = int(H * float(tx.get("height", 0.30)))
+    layer = layer.resize((tw, th), Image.LANCZOS)
+    canvas = Image.new("RGBA", (W, H), (0, 0, 0, 0))
+    cy = int(H * float(tx.get("y", 0.40)))
+    canvas.alpha_composite(layer, ((W - tw) // 2, cy - th // 2))
+    sub = ImageFont.truetype(FONTS["serif_italic"], int(tx.get("sub_size", 26)))
+    d = ImageDraw.Draw(canvas)
+    y = cy + th // 2 + 18
+    for line in tx.get("sub", []):
+        line = line.upper()
+        spacing = 4
+        width = sum(d.textlength(c, font=sub) + spacing for c in line) - spacing
+        x = (W - width) / 2
+        for c in line:
+            d.text((x, y), c, font=sub, fill=red)
+            x += d.textlength(c, font=sub) + spacing
+        y += int(tx.get("sub_size", 26) * 1.35)
+    canvas.save(path)
+
+
 # ---------------------------------------------------------------- main -----
 def main():
     ap = argparse.ArgumentParser()
@@ -346,6 +380,10 @@ def main():
     os.makedirs(work, exist_ok=True)
     np.random.seed(7)
 
+    fast = [k for k, sg in enumerate(plan["segments"]) if float(sg.get("speed", 1)) > 1]
+    if len(fast) > 1:
+        raise SystemExit(f"segments {fast} are sped up; the user allows at most one deliberate "
+                         "speed-up per edit (see LEARNINGS.md).")
     segs, t = [], 0.0
     files = []
     for i, seg in enumerate(plan["segments"]):
@@ -369,10 +407,20 @@ def main():
         bar = int(plan.get("letterbox_px", 210))
         vf += [f"drawbox=x=0:y=0:w=iw:h={bar}:color=black:t=fill",
                f"drawbox=x=0:y=ih-{bar}:w=iw:h={bar}:color=black:t=fill"]
-    vf += text_filters(plan.get("texts", []))
-    vf.append(f"fade=t=out:st={total - 0.5:.2f}:d=0.5")
-    run(["ffmpeg", "-y", "-hide_banner", "-i", joined, "-i", mix, "-vf", ",".join(vf),
-         "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "17",
+    texts = plan.get("texts", [])
+    vf += text_filters([t for t in texts if t.get("style") != "red_title"])
+    cards = [t for t in texts if t.get("style") == "red_title"]
+    inputs, chain, last = [], "[0:v]" + ",".join(vf) + "[b0]", "[b0]"
+    for k, tx in enumerate(cards):
+        png = os.path.join(work, f"card{k}.png")
+        red_title_png(tx, png)
+        inputs += ["-loop", "1", "-i", png]
+        chain += (f";{last}[{k + 2}:v]overlay=0:0:shortest=1:"
+                  f"enable='between(t,{tx['start']},{tx['end']})'[b{k + 1}]")
+        last = f"[b{k + 1}]"
+    chain += f";{last}fade=t=out:st={total - 0.5:.2f}:d=0.5[vout]"
+    run(["ffmpeg", "-y", "-hide_banner", "-i", joined, "-i", mix, *inputs, "-filter_complex", chain,
+         "-map", "[vout]", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "17",
          "-pix_fmt", "yuv420p", "-c:a", "aac", "-b:a", "256k", "-movflags", "+faststart",
          "-shortest", a.output])
     print(f"done: {a.output} ({total:.1f}s)")
