@@ -1,0 +1,19 @@
+{
+  "grade": "night",
+  "bpm": 100,
+  "segments": [
+    {"src": "IMG_7071.MOV",  "in": 3.6, "out": 4.5, "speed": 1.0, "zoom": "push", "sfx": ["riser"], "src_audio": 0.5},
+    {"src": "IMG_7071.MOV",  "in": 4.5, "out": 5.9, "speed": 0.45, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "ded3ed1b.mov",  "in": 1.7, "out": 2.3, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["impact", "whoosh"]},
+    {"src": "ded3ed1b.mov",  "in": 2.3, "out": 3.6, "speed": 0.4, "bw": true, "zoom": "push", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_7091.MOV",  "in": 5.1, "out": 5.7, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["impact", "whoosh"]},
+    {"src": "IMG_7091.MOV",  "in": 5.7, "out": 6.9, "speed": 0.5, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_6967.mov",  "in": 3.0, "out": 4.4, "speed": 0.5, "flash": true, "bw": true, "zoom": "push", "sfx": ["whoosh", "drop"], "src_audio": 0.3},
+    {"src": "IMG_6967.mov",  "in": 4.4, "out": 5.8, "speed": 1.0, "shake": 1.0, "zoom": "punch", "sfx": ["impact"], "src_audio": 0.6}
+  ],
+  "texts": [
+    {"text": "night session", "start": 0.25, "end": 3.8, "size": 78, "y": 0.15, "font": "serif"},
+    {"text": "(under the lights)", "start": 0.6, "end": 3.8, "size": 44, "y": 0.196, "font": "serif_italic"},
+    {"text": "send it.", "start": 13.0, "end": 14.9, "size": 72, "y": 0.15, "font": "serif_italic"}
+  ]
+}

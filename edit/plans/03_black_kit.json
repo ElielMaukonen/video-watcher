@@ -1,0 +1,22 @@
+{
+  "grade": "aesthetic",
+  "bpm": 100,
+  "segments": [
+    {"src": "d2095977.mov", "in": 2.0, "out": 2.6, "speed": 1.0, "zoom": "push", "sfx": ["riser"], "src_audio": 0.5},
+    {"src": "d2095977.mov", "in": 2.6, "out": 3.4, "speed": 0.4, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_7916.MOV", "in": 4.4, "out": 5.0, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["impact", "whoosh"]},
+    {"src": "IMG_7916.MOV", "in": 5.2, "out": 5.9, "speed": 0.45, "bw": true, "zoom": "push", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_7911.MOV", "in": 10.2, "out": 10.7, "speed": 1.0, "zoom": "punch", "sfx": ["whoosh", "impact"]},
+    {"src": "IMG_7911.MOV", "in": 10.7, "out": 11.4, "speed": 0.45, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "d2095977.mov", "in": 5.2, "out": 5.8, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["whoosh", "impact"]},
+    {"src": "d2095977.mov", "in": 5.9, "out": 6.5, "speed": 0.5, "bw": true, "zoom": "push", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_1688.MOV", "in": 13.9, "out": 14.5, "speed": 1.0, "flash": true, "sfx": ["whoosh", "riser"]},
+    {"src": "IMG_1688.MOV", "in": 14.5, "out": 15.9, "speed": 0.4, "zoom": "pull", "sfx": ["impact", "drop"], "src_audio": 0.3},
+    {"src": "IMG_1688.MOV", "in": 15.9, "out": 16.6, "speed": 1.0, "shake": 1.0, "zoom": "punch", "sfx": ["impact"], "src_audio": 0.6}
+  ],
+  "texts": [
+    {"text": "all black", "start": 0.2, "end": 2.5, "size": 80, "y": 0.15, "font": "serif"},
+    {"text": "(berms & sends)", "start": 0.5, "end": 2.5, "size": 44, "y": 0.196, "font": "serif_italic"},
+    {"text": "no hands.", "start": 9.8, "end": 12.6, "size": 74, "y": 0.15, "font": "serif_italic"}
+  ]
+}

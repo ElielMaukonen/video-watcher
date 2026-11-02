@@ -1,0 +1,21 @@
+{
+  "grade": "aesthetic",
+  "bpm": 100,
+  "segments": [
+    {"src": "IMG_9751.mov", "in": 2.2, "out": 3.0, "speed": 1.0, "zoom": "push", "sfx": ["riser"], "src_audio": 0.5},
+    {"src": "IMG_9751.mov", "in": 3.0, "out": 3.8, "speed": 0.4, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_8664.MOV", "in": 0.2, "out": 1.2, "speed": 1.0, "bw": true, "flash": true, "zoom": "push", "sfx": ["impact"]},
+    {"src": "IMG_6256.mov", "in": 5.5, "out": 6.3, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["impact", "whoosh"]},
+    {"src": "IMG_6256.mov", "in": 6.3, "out": 7.3, "speed": 0.5, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_9731.mov", "in": 2.0, "out": 2.6, "speed": 1.0, "zoom": "punch", "sfx": ["whoosh", "impact"]},
+    {"src": "IMG_9731.mov", "in": 2.6, "out": 3.2, "speed": 0.5, "bw": true, "zoom": "push", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_6265.mov", "in": 13.2, "out": 14.0, "speed": 1.0, "flash": true, "zoom": "punch", "sfx": ["whoosh", "impact"]},
+    {"src": "IMG_6265.mov", "in": 14.0, "out": 14.9, "speed": 0.45, "zoom": "pull", "sfx": ["drop"], "src_audio": 0.3},
+    {"src": "IMG_6244.mov", "in": 5.0, "out": 6.4, "speed": 1.0, "shake": 0.8, "zoom": "punch", "sfx": ["impact"], "src_audio": 0.6}
+  ],
+  "texts": [
+    {"text": "MTB lifestyle", "start": 0.2, "end": 2.7, "size": 78, "y": 0.15, "font": "serif"},
+    {"text": "(MTB aesthetic)", "start": 0.5, "end": 2.7, "size": 44, "y": 0.196, "font": "serif_italic"},
+    {"text": "golden hour laps", "start": 11.3, "end": 12.6, "size": 66, "y": 0.15, "font": "serif_italic"}
+  ]
+}
