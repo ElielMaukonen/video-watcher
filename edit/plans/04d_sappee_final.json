@@ -1,0 +1,80 @@
+{
+ "grade": "aesthetic",
+ "finish": "clean",
+ "audio": "source",
+ "segments": [
+  {
+   "src": "IMG_6472.mov",
+   "in": 0.2,
+   "out": 2.0
+  },
+  {
+   "src": "IMG_8356.JPG",
+   "in": 0,
+   "out": 2.2,
+   "zoom": "drift"
+  },
+  {
+   "src": "IMG_6465.mov",
+   "in": 4.1,
+   "out": 5.7
+  },
+  {
+   "src": "IMG_6505.mov",
+   "in": 8.4,
+   "out": 13.4,
+   "src_audio": 1.0
+  },
+  {
+   "src": "IMG_8355.JPG",
+   "in": 0,
+   "out": 2.2,
+   "zoom": "drift"
+  },
+  {
+   "src": "IMG_6539.mov",
+   "in": 9.9,
+   "out": 13.0,
+   "bw": true,
+   "src_audio": 1.0
+  },
+  {
+   "src": "IMG_8354.HEIC",
+   "in": 0,
+   "out": 2.4,
+   "zoom": "drift"
+  },
+  {
+   "src": "IMG_6539.mov",
+   "in": 19.0,
+   "out": 21.4,
+   "src_audio": 1.0
+  }
+ ],
+ "texts": [
+  {
+   "style": "red_title",
+   "text": "SAPPEE",
+   "start": 6.1,
+   "end": 8.1,
+   "y": 0.42,
+   "height": 0.3,
+   "sub": [
+    "Finnish DH Cup",
+    "final round",
+    "september 2026"
+   ]
+  },
+  {
+   "style": "red_title",
+   "text": "WINNER",
+   "start": 16.4,
+   "end": 18.5,
+   "y": 0.42,
+   "height": 0.28,
+   "sub": [
+    "1st place - Finnish DH Cup final"
+   ]
+  }
+ ]
+}

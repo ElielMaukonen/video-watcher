@@ -76,6 +76,8 @@ def zoom_expr(kind, dur):
         return f"1.0+0.10*min(ot/{dur:.3f},1)"
     if kind == "pull":    # start tight, ease out
         return f"1.12-0.12*min(ot/{dur:.3f},1)"
+    if kind == "drift":   # barely-there motion for stills
+        return f"1.0+0.035*min(ot/{dur:.3f},1)"
     return "1.0"
 
 
@@ -419,7 +421,7 @@ def main():
          "-c", "copy", joined])
 
     mix = build_audio(plan, segs, total, work)
-    vf = ["noise=alls=5:allf=t", "vignette=PI/5"]
+    vf = [] if plan.get("finish") == "clean" else ["noise=alls=5:allf=t", "vignette=PI/5"]
     if plan.get("letterbox"):
         bar = int(plan.get("letterbox_px", 210))
         vf += [f"drawbox=x=0:y=0:w=iw:h={bar}:color=black:t=fill",
@@ -427,7 +429,7 @@ def main():
     texts = plan.get("texts", [])
     vf += text_filters([t for t in texts if t.get("style") != "red_title"])
     cards = [t for t in texts if t.get("style") == "red_title"]
-    inputs, chain, last = [], "[0:v]" + ",".join(vf) + "[b0]", "[b0]"
+    inputs, chain, last = [], "[0:v]" + (",".join(vf) or "null") + "[b0]", "[b0]"
     for k, tx in enumerate(cards):
         png = os.path.join(work, f"card{k}.png")
         red_title_png(tx, png)
