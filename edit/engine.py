@@ -105,6 +105,16 @@ def render_segment(i, seg, src_dir, work, grade):
     vf = [f"trim={a - pre:.3f}:{b - pre:.3f}", "setpts=PTS-STARTPTS",
           f"scale={W}:{H}:force_original_aspect_ratio=increase", f"crop={W}:{H}",
           "fps=60"]
+    if seg.get("fit"):  # whole (landscape) image on a blurred copy of itself
+        vf[2:4] = [f"split[fg][bg];[bg]scale={W}:{H}:force_original_aspect_ratio=increase,crop={W}:{H},"
+                   f"boxblur=30:3,eq=brightness=-0.08[bgb];[fg]scale={W}:{H}:force_original_aspect_ratio=decrease[fgs];"
+                   f"[bgb][fgs]overlay=(W-w)/2:(H-h)/2"]
+    if seg.get("crop"):  # [cx, cy, zoom]: punch in on a distant subject, fixed (no motion)
+        cx, cy, cz = seg["crop"]
+        cw, ch = int(W / cz) // 2 * 2, int(H / cz) // 2 * 2
+        x = int(min(max(cx * W - cw / 2, 0), W - cw))
+        y = int(min(max(cy * H - ch / 2, 0), H - ch))
+        vf.append(f"crop={cw}:{ch}:{x}:{y},scale={W}:{H}:flags=lanczos")
     if speed < 1.0:
         vf += [f"setpts=PTS/{speed}",
                "minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1"]
