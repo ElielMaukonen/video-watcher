@@ -3,6 +3,7 @@
 Newest first. One line per finding. These override the defaults in SKILL.md.
 
 ## User preferences
+- 2026-11-02 **Shot length sweet spot ~1.5-2.5 s.** 0.64-1.28 s beat cuts (01c, 04, 04b) were 'way too fast, cut off'. 2.4-3.25 s slow-mo shots (01) were too slow. Let each shot show a COMPLETE action (approach -> pass -> exit) and cut only when the move has finished. A speed change inside one continuous clip is fine and does not count as a cut.
 - 2026-11-02 **All on-screen text in English.**
 - 2026-11-02 **Text only when it fits** - not on every edit by default.
 - 2026-11-02 Planned: a race edit using ONLY clips from that one race, in the style of the Andorra reel.
@@ -34,5 +35,6 @@ Newest first. One line per finding. These override the defaults in SKILL.md.
 - Input-seek (`-ss` before `-i`) is essential on 4K sources; trim-from-start took ~2 min per segment.
 
 ## Feedback log
+- 2026-11-02 04/04b Sappee: cuts far too short, shots end before the action does. Remade with 1.3-2.6 s shots.
 - 2026-11-02 01b_night_session_fast: too fast, sped up - rejected. Do not use speed > 1.
 - 2026-11-02 01_night_session: SFX "ihan hirveät", tempo too slow. Visuals not criticised.
