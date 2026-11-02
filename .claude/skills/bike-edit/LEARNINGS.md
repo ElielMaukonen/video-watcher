@@ -3,6 +3,9 @@
 Newest first. One line per finding. These override the defaults in SKILL.md.
 
 ## User preferences
+- 2026-11-02 **All on-screen text in English.**
+- 2026-11-02 **Text only when it fits** - not on every edit by default.
+- 2026-11-02 Planned: a race edit using ONLY clips from that one race, in the style of the Andorra reel.
 - 2026-11-02 **Speed-ups (speed > 1) only rarely: at most ONE clear, deliberate moment per edit, and only when it suits the video.** 01b (2-2.8x ramps on every clip) was 'way too fast'. "Tempo" means faster CUTTING: shorter shots, hard cuts on the beat; default is real-time + slow-mo.
 - 2026-11-02 Loves the big red squashed-serif titles in the Andorra reel (style `red_title`).
 - 2026-11-02 **Synthesised SFX (whoosh/impact/riser/drop, numpy) sound terrible - do not use them.**
@@ -19,6 +22,10 @@ Newest first. One line per finding. These override the defaults in SKILL.md.
 - 2026-11-02 Thumbnails of the 6 YouTube refs (Semenuk / Goldstone fan edits): velocity speed ramps, tight crops, small caps trick labels at bottom (MANUAL, TAIL WHIP, SLOWMO), letterbox, B&W/colour alternation.
 
 ## Footage notes
+- **Identifying the user:** always the same WHITE full-face helmet. Race kit = yellow/orange (Giant). Other sessions often black. Many riders in the footage wear white helmets - check kit too, and ask when unsure. Never build an edit around a rider you have not confirmed is the user.
+- 3.9.2026 clips (IMG_0926a/b, 9537, 9548, 9560): rider in yellow/orange kit; IMG_9560 = podium, yellow rider on top step, banner "TORNI...". GPS = same park as the night session (60.366, 24.757), not Sappee (Sappee GPS ~61.39, 24.51 = IMG_7911/7916 on 29.8).
+- 26-27.9.2026 forest race clips (IMG_6427/6455/6465/6472): close passes are OTHER riders (grey/dark kits); no yellow kit found. Distant orange shapes are marshals/bags.
+- The user won the Finnish DH Cup final (they named it Sappee). Race edit postponed: **the user will upload exactly the clips they want for it** - use only those.
 - iPhone, mostly 4K60 portrait (rotation metadata -90/90), some 1080p30. 60 fps clips slow-mo cleanly; 30 fps clips need speed >= 0.5.
 - Night session clips at the floodlit wooden kicker are already very blue/cyan - use `grade: night`, not `aesthetic`.
 
