@@ -206,6 +206,26 @@ Read these before trusting a number.
   It never reduces the frame count silently — it states the number and lets you decide.
   Run each video in its own fresh session, and never in the same session as a pattern pass.
 
+## Posting to TikTok
+
+A second skill, `tiktok-post`, publishes videos to your own TikTok account through TikTok's
+official **Content Posting API**: one video or a whole batch, posted directly or sent as a draft to
+the TikTok app. It is free, because your own TikTok developer app talks to TikTok directly. There
+is no scheduler subscription and no cap beyond TikTok's own daily limit. Standard library only.
+
+Just ask ("post this to TikTok", "julkaise nämä tiktokiin"). One-time setup, all free:
+
+1. At https://developers.tiktok.com create an app with **Login Kit** and **Content Posting API**
+   (Direct Post on). Platform **Desktop**, redirect URI `http://localhost:3455/callback/`.
+2. Store its key and secret: `py ".claude\skills\tiktok-post\scripts\tiktok_post.py" setup`
+3. Log in: `py ".claude\skills\tiktok-post\scripts\tiktok_post.py" auth`
+4. Check: `py ".claude\skills\tiktok-post\scripts\tiktok_post.py" --check` should print `ready.`
+
+**Until TikTok reviews your app, every post is private (`SELF_ONLY`) and the account must be set
+to private.** That is TikTok's rule. Submit the app for review to post publicly. Tokens, the secret
+and the post log live in `.tiktok\`, which is gitignored. Full instructions, the batch format and
+the error table are in `.claude\skills\tiktok-post\SKILL.md`.
+
 ## Tests
 
 ```bash
@@ -221,3 +241,4 @@ Every test corresponds to a bug that was actually shipped, so a failure names a 
   output schema, the build hierarchy and credit rates. No code, no machine paths. Someone with no
   access to this machine could rebuild the whole thing from it.
 - `.claude\skills\watch-video\SKILL.md` — the operational instructions Claude follows.
+- `.claude\skills\tiktok-post\SKILL.md` — TikTok posting: setup, login, batch format, errors.

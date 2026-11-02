@@ -9,3 +9,6 @@ __pycache__/
 # is NEVER committed: one analysis is 8-35 MB of frames and contact sheets.
 # The repo ships the tool and INDEX.template.md; the research is yours.
 /video-research/
+
+# TikTok posting: app secret, OAuth tokens and the post log. Never commit.
+/.tiktok/
