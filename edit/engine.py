@@ -13,6 +13,9 @@ the source audio pitched down in slow-mo the way edits usually do it.
 Plan schema (see edit/plans/*.json for real ones):
 {
   "grade": "aesthetic" | "night" | "none",
+  "audio": "source" (default, real clip audio) | "synth" (legacy, user disliked),
+  "music": {"file": "song.mp3", "start": 12.0, "gain": 0.9, "src_gain": 0.25},
+  "letterbox": true,
   "bpm": 100,
   "segments": [
     {"src": "IMG_7071.MOV", "in": 3.8, "out": 4.6, "speed": 1.0,
@@ -41,6 +44,7 @@ FONTS = {
     "serif_italic": "/usr/share/fonts/truetype/liberation/LiberationSerif-Italic.ttf",
     "serif_bold": "/usr/share/fonts/truetype/liberation/LiberationSerif-Bold.ttf",
     "sans_bold": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
+    "label": "/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf",
 }
 GRADES = {
     "aesthetic": ("eq=contrast=0.95:saturation=0.86:brightness=0.015:gamma=1.02,"
@@ -84,9 +88,11 @@ def render_segment(i, seg, src_dir, work, grade):
     vf = [f"trim={a - pre:.3f}:{b - pre:.3f}", "setpts=PTS-STARTPTS",
           f"scale={W}:{H}:force_original_aspect_ratio=increase", f"crop={W}:{H}",
           "fps=60"]
-    if speed != 1.0:
+    if speed < 1.0:
         vf += [f"setpts=PTS/{speed}",
                "minterpolate=fps=60:mi_mode=mci:mc_mode=aobmc:me_mode=bidir:vsbmc=1"]
+    elif speed > 1.0:  # velocity ramp: speed up with motion blur
+        vf += [f"setpts=PTS/{speed}", f"tmix=frames={min(5, max(2, round(speed * 1.5)))}", "fps=60"]
     z = zoom_expr(seg.get("zoom"), out_dur)
     sh = float(seg.get("shake", 0))
     sx = f"+{sh * 18:.1f}*sin(ot*53)*exp(-ot*4)" if sh else ""
@@ -97,7 +103,7 @@ def render_segment(i, seg, src_dir, work, grade):
     if seg.get("bw"):
         vf.append("hue=s=0,eq=contrast=1.12")
     if seg.get("flash"):
-        vf.append("fade=t=in:st=0:d=0.18:color=white")
+        vf.append("fade=t=in:st=0:d=0.1:color=white")
     out = os.path.join(work, f"seg{i:02d}.mp4")
     key = json.dumps({k: v for k, v in seg.items() if not k.startswith("_")}, sort_keys=True) + grade
     keyf = out + ".key"
@@ -111,8 +117,10 @@ def render_segment(i, seg, src_dir, work, grade):
     # source audio: pitched down + slowed for slow-mo, the classic edit sound
     aout = os.path.join(work, f"seg{i:02d}.wav")
     af = f"atrim={a - pre:.3f}:{b - pre:.3f},asetpts=PTS-STARTPTS"
-    if speed != 1.0:
+    if speed < 1.0:
         af += f",asetrate={int(SR * speed)},aresample={SR},lowpass=f=3000"
+    elif speed > 1.0:
+        af += f",atempo={min(speed, 2.0)}" + (f",atempo={speed / 2.0}" if speed > 2.0 else "")
     af += f",aformat=sample_fmts=s16:channel_layouts=mono,apad,atrim=0:{out_dur:.3f}"
     r = subprocess.run(["ffmpeg", "-y", "-hide_banner", "-loglevel", "error", "-ss", f"{pre:.3f}", "-i", src,
                         "-vn", "-af", af, "-ar", str(SR), aout], capture_output=True)
@@ -230,6 +238,36 @@ def place(buf, clip, at, gain=1.0):
 
 
 def build_audio(plan, segs, total, work):
+    mode = plan.get("audio", "source")
+    if mode != "synth":
+        return build_audio_real(plan, segs, total, work)
+    return build_audio_synth(plan, segs, total, work)
+
+
+def build_audio_real(plan, segs, total, work):
+    """Real audio only: the clips' own sound, optionally under a music track."""
+    src = np.zeros(int(total * SR) + SR)
+    for (start, dur, seg) in segs:
+        place(src, read_wav(seg["_wav"]), start, float(seg.get("src_audio", 0.8)))
+    mix = src[:int(total * SR)]
+    music = plan.get("music")
+    if music:
+        mp = os.path.join(work, "music.wav")
+        run(["ffmpeg", "-y", "-hide_banner", "-ss", str(music.get("start", 0)), "-i", music["file"],
+             "-t", f"{total:.3f}", "-ac", "1", "-ar", str(SR), "-sample_fmt", "s16", mp])
+        m = read_wav(mp)
+        m = np.pad(m, (0, max(0, len(mix) - len(m))))[:len(mix)]
+        mix = m * float(music.get("gain", 0.9)) + mix * float(music.get("src_gain", 0.25))
+    fade = int(0.4 * SR)
+    mix[-fade:] *= np.linspace(1, 0, fade)
+    peak = np.max(np.abs(mix)) or 1
+    mix = mix / peak * 0.89
+    path = os.path.join(work, "mix.wav")
+    write_wav(path, mix)
+    return path
+
+
+def build_audio_synth(plan, segs, total, work):
     bpm = float(plan.get("bpm", 100))
     beat = 60 / bpm
     music = pad(total, bpm) * float(plan.get("pad_gain", 1.0))
@@ -326,7 +364,12 @@ def main():
          "-c", "copy", joined])
 
     mix = build_audio(plan, segs, total, work)
-    vf = ["noise=alls=5:allf=t", "vignette=PI/5"] + text_filters(plan.get("texts", []))
+    vf = ["noise=alls=5:allf=t", "vignette=PI/5"]
+    if plan.get("letterbox"):
+        bar = int(plan.get("letterbox_px", 210))
+        vf += [f"drawbox=x=0:y=0:w=iw:h={bar}:color=black:t=fill",
+               f"drawbox=x=0:y=ih-{bar}:w=iw:h={bar}:color=black:t=fill"]
+    vf += text_filters(plan.get("texts", []))
     vf.append(f"fade=t=out:st={total - 0.5:.2f}:d=0.5")
     run(["ffmpeg", "-y", "-hide_banner", "-i", joined, "-i", mix, "-vf", ",".join(vf),
          "-map", "0:v", "-map", "1:a", "-c:v", "libx264", "-preset", "slow", "-crf", "17",

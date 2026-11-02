@@ -1,0 +1,33 @@
+{
+  "grade": "night",
+  "audio": "source",
+  "letterbox": true,
+  "segments": [
+    {"src": "IMG_7071.MOV", "in": 3.6,  "out": 4.5,  "speed": 2.2, "zoom": "push"},
+    {"src": "IMG_7071.MOV", "in": 4.5,  "out": 4.85, "speed": 0.4, "zoom": "punch"},
+    {"src": "IMG_7071.MOV", "in": 4.85, "out": 5.9,  "speed": 2.6},
+
+    {"src": "ded3ed1b.mov", "in": 1.6,  "out": 2.3,  "speed": 2.2, "flash": true},
+    {"src": "ded3ed1b.mov", "in": 2.3,  "out": 2.65, "speed": 0.4, "bw": true, "zoom": "punch"},
+    {"src": "ded3ed1b.mov", "in": 2.65, "out": 3.9,  "speed": 2.8, "bw": true},
+
+    {"src": "IMG_6966.mov", "in": 2.2,  "out": 2.9,  "speed": 2.2, "flash": true},
+    {"src": "IMG_6966.mov", "in": 2.9,  "out": 3.25, "speed": 0.4, "zoom": "punch"},
+    {"src": "IMG_6966.mov", "in": 3.25, "out": 4.4,  "speed": 2.6},
+
+    {"src": "IMG_7091.MOV", "in": 5.0,  "out": 5.6,  "speed": 2.2, "flash": true},
+    {"src": "IMG_7091.MOV", "in": 5.6,  "out": 5.95, "speed": 0.4, "bw": true, "zoom": "punch"},
+    {"src": "IMG_7091.MOV", "in": 5.95, "out": 7.0,  "speed": 2.6, "bw": true},
+
+    {"src": "IMG_6967.mov", "in": 2.2,  "out": 3.0,  "speed": 2.2, "flash": true},
+    {"src": "IMG_6967.mov", "in": 3.0,  "out": 3.5,  "speed": 0.35, "zoom": "punch"},
+    {"src": "IMG_6967.mov", "in": 3.5,  "out": 4.5,  "speed": 2.4},
+    {"src": "IMG_6967.mov", "in": 4.5,  "out": 5.5,  "speed": 1.0, "shake": 1.0, "zoom": "punch", "src_audio": 1.0}
+  ],
+  "texts": [
+    {"text": "night session", "start": 0.1, "end": 1.7, "size": 76, "y": 0.135, "font": "serif"},
+    {"text": "SLOWMO", "start": 2.5, "end": 3.4, "size": 34, "y": 0.84, "font": "label"},
+    {"text": "SLOWMO", "start": 6.6, "end": 7.4, "size": 34, "y": 0.84, "font": "label"},
+    {"text": "send it.", "start": 11.0, "end": 12.4, "size": 70, "y": 0.135, "font": "serif_italic"}
+  ]
+}
