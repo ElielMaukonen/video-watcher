@@ -87,7 +87,19 @@ def render_segment(i, seg, src_dir, work, grade):
                          "speed-ups rarely - one deliberate moment per edit (see LEARNINGS.md).")
     a, b = float(seg["in"]), float(seg["out"])
     out_dur = (b - a) / speed
-    pre = max(0.0, a - 0.5)  # fast input seek, then exact trim
+    still = src.lower().endswith((".jpg", ".jpeg", ".png", ".heic"))
+    if still:  # photos: a = 0, b = how long to hold it
+        if src.lower().endswith(".heic"):
+            jpg = os.path.join(work, os.path.basename(src) + ".jpg")
+            if not os.path.exists(jpg):
+                import pillow_heif
+                from PIL import Image, ImageOps
+                pillow_heif.register_heif_opener()
+                ImageOps.exif_transpose(Image.open(src)).convert("RGB").save(jpg, quality=95)
+            src = jpg
+        speed, a = 1.0, 0.0
+        out_dur = b
+    pre = 0.0 if still else max(0.0, a - 0.5)  # fast input seek, then exact trim
     vf = [f"trim={a - pre:.3f}:{b - pre:.3f}", "setpts=PTS-STARTPTS",
           f"scale={W}:{H}:force_original_aspect_ratio=increase", f"crop={W}:{H}",
           "fps=60"]
@@ -112,13 +124,18 @@ def render_segment(i, seg, src_dir, work, grade):
     keyf = out + ".key"
     cached = os.path.exists(out) and os.path.exists(keyf) and open(keyf).read() == key
     if not cached:
-      run(["ffmpeg", "-y", "-hide_banner", "-ss", f"{pre:.3f}", "-i", src, "-an", "-vf", ",".join(vf),
+      inp = ["-loop", "1", "-framerate", "60", "-t", f"{out_dur + 0.1:.3f}", "-i", src] if still \
+          else ["-ss", f"{pre:.3f}", "-i", src]
+      run(["ffmpeg", "-y", "-hide_banner", *inp, "-an", "-vf", ",".join(vf),
          "-t", f"{out_dur:.3f}", "-r", "60", "-c:v", "libx264", "-preset", "fast",
          "-crf", "14", "-pix_fmt", "yuv420p", out])
       open(keyf, "w").write(key)
 
     # source audio: pitched down + slowed for slow-mo, the classic edit sound
     aout = os.path.join(work, f"seg{i:02d}.wav")
+    if still:
+        silence(aout, out_dur)
+        return out, aout, out_dur
     af = f"atrim={a - pre:.3f}:{b - pre:.3f},asetpts=PTS-STARTPTS"
     if speed < 1.0:
         af += f",asetrate={int(SR * speed)},aresample={SR},lowpass=f=3000"
